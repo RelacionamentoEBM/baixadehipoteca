@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Baixa de hipoteca · Acompanhamento</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=Figtree:wght@400;500;600&display=swap">
+<style>
+:root{--bg:#F3F5F9;--surface:#fff;--ink:#14233B;--muted:#5B6B83;--line:#E1E6EE;--red:#B93232;--red-bg:#FBECEC;--amber:#8F5B00;--amber-bg:#FFF1D6;--blue:#2F55B0;--blue-bg:#E8EEFB;--green:#1B7F55;--green-bg:#E2F4EA;--accent:#14233B;color-scheme:light;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0F1724;--surface:#182234;--ink:#E9EEF7;--muted:#9AA8BF;--line:#2A3650;--red:#FF8A8A;--red-bg:#3A1F25;--amber:#F5C066;--amber-bg:#3A2D14;--blue:#8FADF0;--blue-bg:#1D2B4A;--green:#6FD3A3;--green-bg:#17352A;--accent:#E9EEF7;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0F1724;--surface:#182234;--ink:#E9EEF7;--muted:#9AA8BF;--line:#2A3650;--red:#FF8A8A;--red-bg:#3A1F25;--amber:#F5C066;--amber-bg:#3A2D14;--blue:#8FADF0;--blue-bg:#1D2B4A;--green:#6FD3A3;--green-bg:#17352A;--accent:#E9EEF7;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 Figtree,system-ui,sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:28px 20px 56px}
+h1,h2{font-family:"Bricolage Grotesque",Figtree,system-ui,sans-serif;margin:0;letter-spacing:-.01em}
+h1{font-size:clamp(1.7rem,4vw,2.4rem);line-height:1.1}
+h2{font-size:1.2rem}
+.sub{color:var(--muted);margin:6px 0 24px;max-width:60ch}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.stat{all:unset;cursor:pointer;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px;display:grid;gap:2px;border-left:5px solid var(--c,var(--ink));transition:box-shadow .15s,transform .15s}
+.stat:hover{box-shadow:0 6px 18px rgba(20,35,59,.10)}
+.stat[aria-pressed=true]{outline:2px solid var(--c,var(--ink));outline-offset:1px;background:var(--bg2,var(--surface))}
+.stat b{font:700 2rem/1 "Bricolage Grotesque",Figtree,sans-serif;color:var(--c,var(--ink))}
+.stat span{color:var(--muted);font-size:.9rem}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+section{margin-top:34px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px}
+.alert{border-left:5px solid var(--red)}
+.alert .note{margin:18px 0 0;padding:10px 14px;border-radius:10px;background:var(--amber-bg);color:var(--amber);font-size:.92rem}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+.cols h3{font-size:.95rem;margin:0 0 8px;color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{all:unset;cursor:pointer;font-size:.9rem;padding:5px 11px;border-radius:999px;background:var(--red-bg);color:var(--red);font-weight:500}
+.chip.soft{background:var(--amber-bg);color:var(--amber)}
+.chip:hover{filter:brightness(.95)}
+.tl{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin-top:12px}
+.tl .m{background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--amber);border-radius:12px;padding:12px 14px}
+.tl .m h3{margin:0 0 8px;font:700 1.05rem "Bricolage Grotesque",Figtree,sans-serif}
+.tl ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.tl li button{all:unset;cursor:pointer;display:block;width:100%}
+.tl li button:hover .nm{text-decoration:underline}
+.tl small{color:var(--muted);display:block}
+.tools{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}
+input,select{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:9px 12px;min-height:42px}
+input{flex:1 1 240px}
+.list{display:grid;gap:8px}
+.row{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.row>button{all:unset;cursor:pointer;display:grid;grid-template-columns:1fr auto;gap:6px 14px;align-items:center;width:100%;padding:12px 16px;box-sizing:border-box}
+.row>button:hover{background:var(--bg)}
+.row .n{font-weight:600}
+.row .b{color:var(--muted);font-size:.88rem}
+.badge{font-size:.82rem;font-weight:600;padding:4px 10px;border-radius:999px;white-space:nowrap}
+.s-excedido{background:var(--red-bg);color:var(--red)}
+.s-prazo{background:var(--amber-bg);color:var(--amber)}
+.s-naoentregue{background:var(--blue-bg);color:var(--blue)}
+.s-baixada{background:var(--green-bg);color:var(--green)}
+.det{display:none;padding:2px 16px 14px;color:var(--muted);font-size:.95rem;border-top:1px dashed var(--line)}
+.det p{margin:8px 0 0}.det b{color:var(--ink)}
+.row.open .det{display:block}
+.empty{padding:28px;text-align:center;color:var(--muted)}
+.count{color:var(--muted);font-size:.9rem;margin:0 0 4px}
+.wrap{max-width:1120px;padding:44px 24px 72px}
+h1{font-size:clamp(2rem,5vw,3rem);letter-spacing:-.025em}
+.sub{font-size:1.02rem;margin:10px 0 30px}
+.bar{display:flex;gap:3px;height:14px;margin:0 0 18px;border-radius:999px;overflow:hidden}
+.bar button{all:unset;cursor:pointer;min-width:6px;transition:filter .15s}
+.bar button:hover{filter:brightness(1.15)}
+.bar button:focus-visible{outline:3px solid var(--blue);outline-offset:-3px}
+.stat{border:1px solid var(--line);border-left:1px solid var(--line);border-radius:16px;padding:18px 18px 16px;gap:6px;box-shadow:0 1px 2px rgba(20,35,59,.05);position:relative}
+.stat::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--c,var(--ink));position:absolute;top:20px;right:18px}
+.stat b{font-size:2.6rem;letter-spacing:-.02em}
+.stat span{font-weight:500}
+.stat:hover{transform:translateY(-2px)}
+section{margin-top:46px}
+section>h2{font-size:1.4rem}
+.card{border-radius:18px;padding:24px;box-shadow:0 1px 2px rgba(20,35,59,.05)}
+.alert{border-left:1px solid var(--line);border-top:4px solid var(--red)}
+.cols{gap:26px}
+.cols h3{font-size:1rem;margin-bottom:12px}
+.chip{padding:7px 14px;font-weight:600;border:1px solid transparent;transition:border-color .15s}
+.chip:hover{filter:none;border-color:currentColor}
+.alert .note{margin-top:22px;padding:12px 16px;border-radius:12px;border:1px solid var(--amber)}
+.tl{gap:14px;margin-top:14px}
+.tl .m{border-radius:16px;padding:18px;border-top:1px solid var(--line)}
+.tl .m h3{display:inline-block;background:var(--amber-bg);color:var(--amber);padding:3px 14px;border-radius:999px;font-size:.95rem;margin-bottom:12px}
+.tl .nm{font-weight:600}
+.tools{margin:16px 0 14px}
+input,select{border-radius:12px;min-height:46px;padding:10px 14px}
+input:focus{border-color:var(--blue)}
+.row{border-radius:14px;position:relative;box-shadow:0 1px 2px rgba(20,35,59,.04);transition:box-shadow .15s}
+.row::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--rc)}
+.k-excedido{--rc:var(--red)}.k-prazo{--rc:var(--amber)}.k-naoentregue{--rc:var(--blue)}.k-baixada{--rc:var(--green)}
+.row:hover{box-shadow:0 6px 18px rgba(20,35,59,.09)}
+.row>button{padding:15px 18px 15px 26px}
+.det{padding:6px 26px 18px;background:var(--bg)}
+.badge{padding:5px 12px}
+.rt{display:flex;align-items:center;gap:14px}
+.chev{width:9px;height:9px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);margin-top:-3px;transition:transform .2s}
+.row.open .chev{transform:rotate(-135deg);margin-top:3px}
+@media (max-width:560px){.row>button{grid-template-columns:1fr}.wrap{padding:28px 16px 56px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Baixa de hipoteca</h1>
+  <p class="sub">Situação de cada empreendimento e próximos prazos. Clique em um número para filtrar, ou em um empreendimento para ver o detalhe.</p>
+  <div class="bar" id="bar" role="group" aria-label="Distribuição por situação"></div>
+  <div class="stats" id="stats"></div>
+
+  <section id="atencao"></section>
+  <section id="timeline"></section>
+
+  <section id="lista">
+    <h2>Todos os empreendimentos</h2>
+    <div class="tools">
+      <input id="q" type="search" placeholder="Buscar empreendimento" aria-label="Buscar empreendimento">
+      <select id="brand" aria-label="Filtrar por linha"></select>
+    </div>
+    <p class="count" id="count" aria-live="polite"></p>
+    <div class="list" id="rows"></div>
+  </section>
+</div>
+<script>
+const RAW=[{"n": "Jardins Bellagio 1", "s": "Hipoteca baixada, plano empresário quitado", "p": ""}, {"n": "Jardins Bellagio 2", "s": "Hipoteca baixada, plano empresário quitado", "p": ""}, {"n": "Loc Serrinha", "s": "Unidades hipotecadas, empreendimento não entregue", "p": ""}, {"n": "Metropolitan Bueno", "s": "Prazo para baixa até 04/2027", "p": ""}, {"n": "Metropolitan Genebra", "s": "Unidades hipotecadas, empreendimento não entregue", "p": ""}, {"n": "Now 111", "s": "Unidades hipotecadas, empreendimento não entregue", "p": ""}, {"n": "Now 29", "s": "Unidades hipotecadas, empreendimento não entregue", "p": ""}, {"n": "Now Alameda das Águas - 1ª Fase", "s": "Unidades hipotecadas, empreendimento não entregue", "p": ""}, {"n": "Now Alameda das Águas - 2ª Fase", "s": "Unidades hipotecadas, empreendimento não entregue", "p": ""}, {"n": "Now Laguna - 1ª Fase", "s": "Unidades hipotecadas, empreendimento não entregue", "p": ""}, {"n": "Now Laguna - 2ª Fase", "s": "Unidades hipotecadas, empreendimento não entregue", "p": ""}, {"n": "Now Milão - 1ª Fase", "s": "Unidades hipotecadas, empreendimento não entregue", "p": ""}, {"n": "Now PQ Amazônia - 1ª Fase", "s": "Hipoteca baixada, plano empresário quitado", "p": ""}, {"n": "Now PQ Amazônia - 2ª Fase", "s": "Prazo Excedido", "p": ""}, {"n": "Now PQ Amazônia - 3ª Fase", "s": "Prazo Excedido", "p": ""}, {"n": "Now Praça C8", "s": "Prazo Excedido", "p": ""}, {"n": "Now Reserva das Águas - 1ª Fase", "s": "Prazo Excedido", "p": "Previsão 02/2027"}, {"n": "Now Reserva das Águas - 2ª Fase", "s": "Prazo Excedido", "p": ""}, {"n": "Now Reserva das Águas - 3ª Fase", "s": "Prazo Excedido", "p": ""}, {"n": "Parque América Cancun - 1ª Fase", "s": "Hipoteca baixada, plano empresário quitado", "p": ""}, {"n": "Parque América Cancun - 2ª Fase", "s": "Hipoteca baixada, plano empresário quitado", "p": ""}, {"n": "Parque América Cancun - 3ª Fase", "s": "Hipoteca baixada, plano empresário quitado", "p": ""}, {"n": "Parque América Trancoso", "s": "Unidades hipotecadas, empreendimento não entregue", "p": ""}, {"n": "Reserva Urbana Pitangueira 1ª Fase", "s": "Unidades hipotecadas, empreendimento não entregue", "p": ""}, {"n": "Reserva Urbana Pitangueira 2ª Fase", "s": "Unidades hipotecadas, empreendimento não entregue", "p": ""}, {"n": "Rota Panorama", "s": "Unidades hipotecadas, empreendimento não entregue", "p": ""}, {"n": "Smart 36", "s": "Unidades hipotecadas, empreendimento não entregue", "p": ""}, {"n": "Smart Bourbon", "s": "Hipoteca baixada, plano empresário quitado", "p": ""}, {"n": "Smart Parque Areião", "s": "Prazo para baixa até 01/2027", "p": ""}, {"n": "The Sun", "s": "Hipoteca baixada, plano empresário quitado", "p": ""}, {"n": "Vida Mar", "s": "Hipoteca baixada, plano empresário quitado", "p": ""}, {"n": "Vida Milão - 1ª Fase", "s": "Hipoteca baixada, plano empresário quitado", "p": ""}, {"n": "Vida Milão - 2ª Fase", "s": "Hipoteca baixada, plano empresário quitado", "p": ""}, {"n": "Vida Milão - 3ª Fase", "s": "Hipoteca baixada, plano empresário quitado", "p": ""}, {"n": "Vida Samambaia", "s": "Prazo para baixa até 03/2027", "p": ""}, {"n": "Volt C220", "s": "Unidades hipotecadas, empreendimento não entregue", "p": ""}, {"n": "Wide Maristta", "s": "Unidades hipotecadas, empreendimento não entregue", "p": ""}, {"n": "Wide Nova Campinas", "s": "Unidades hipotecadas, empreendimento não entregue", "p": ""}, {"n": "Wide Praça do Sol", "s": "Unidades hipotecadas, empreendimento não entregue", "p": ""}, {"n": "Wish 211", "s": "Hipoteca baixada, plano empresário quitado", "p": ""}, {"n": "Wish 675", "s": "Prazo Excedido", "p": ""}, {"n": "Wish Aeroporto", "s": "Hipoteca baixada, plano empresário quitado", "p": ""}, {"n": "Wish Areião", "s": "Hipoteca baixada, plano empresário quitado", "p": ""}, {"n": "Wish Bella Vista", "s": "Hipoteca baixada, plano empresário quitado", "p": ""}, {"n": "Wish Coimbra", "s": "Hipoteca baixada, plano empresário quitado", "p": ""}, {"n": "Wish Gran 29", "s": "Prazo Excedido", "p": "Previsão 01/2027"}, {"n": "Wish Gran Park", "s": "Unidades hipotecadas, empreendimento não entregue", "p": ""}, {"n": "Wish Gran Six", "s": "Unidades hipotecadas, empreendimento não entregue", "p": ""}, {"n": "Wish Morumbi", "s": "Hipoteca baixada, plano empresário quitado", "p": ""}, {"n": "Wish Park Jundiaí", "s": "Prazo Excedido", "p": ""}, {"n": "Wish Parque Estação", "s": "Unidades hipotecadas, empreendimento não entregue", "p": ""}, {"n": "Wish Passeio Castanheiras", "s": "Prazo Excedido", "p": "Previsão 02/2027"}, {"n": "Wish Trinta e Sete", "s": "Unidades hipotecadas, empreendimento não entregue", "p": ""}, {"n": "Wish Vaca Brava", "s": "Hipoteca baixada, plano empresário quitado", "p": ""}];
+const ST={
+ excedido:{t:"Prazo excedido",c:"var(--red)",bg:"var(--red-bg)",o:0},
+ prazo:{t:"Dentro do prazo contratual",c:"var(--amber)",bg:"var(--amber-bg)",o:1},
+ naoentregue:{t:"Não entregue",c:"var(--blue)",bg:"var(--blue-bg)",o:2},
+ baixada:{t:"Hipoteca baixada",c:"var(--green)",bg:"var(--green-bg)",o:3}
+};
+function kind(s){return s.startsWith("Hipoteca baixada")?"baixada":s.startsWith("Unidades")?"naoentregue":s.startsWith("Prazo Excedido")?"excedido":"prazo"}
+const BRANDS=["Parque América","Reserva Urbana","Metropolitan","Jardins","Smart","Vida","Wide","Wish","Now","Loc","Rota","The Sun","Volt"];
+function brand(n){return BRANDS.find(b=>n.startsWith(b))||"Outros"}
+const MES=["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];
+function month(t){const m=/(\d{2})\/(\d{4})/.exec(t||"");return m?{k:m[2]+"-"+m[1],l:MES[+m[1]-1]+"/"+m[2]}:null}
+const D=RAW.map(r=>{const k=kind(r.s);const mo=(k==="prazo"||k==="excedido")?month(r.p||r.s):null;
+ return {n:r.n,s:r.s,p:r.p,k,b:brand(r.n),mo:k==="excedido"&&!r.p?null:mo}});
+D.sort((a,b)=>ST[a.k].o-ST[b.k].o||a.n.localeCompare(b.n,"pt"));
+let F="all",Q="",B="",OPEN=null;
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function stats(){
+ const cnt=k=>D.filter(d=>k==="all"||d.k===k).length;
+ const items=[["all","Todos",null]].concat(Object.keys(ST).map(k=>[k,ST[k].t,ST[k]]));
+ $("#stats").innerHTML=items.map(([k,t,s])=>`<button class="stat" data-k="${k}" aria-pressed="${F===k}" style="${s?`--c:${s.c};--bg2:${s.bg}`:""}"><b>${cnt(k)}</b><span>${t}</span></button>`).join("");
+ const bar=Object.keys(ST).map(k=>{const n=cnt(k);return `<button style="flex:${n};background:${ST[k].c}" data-k="${k}" title="${ST[k].t}: ${n}" aria-label="${ST[k].t}: ${n}"></button>`}).join("");$("#bar").innerHTML=bar;document.querySelectorAll("#bar button").forEach(b=>b.onclick=()=>{F=F===b.dataset.k?"all":b.dataset.k;OPEN=null;render();$("#lista").scrollIntoView()});document.querySelectorAll(".stat").forEach(b=>b.onclick=()=>{F=(F===b.dataset.k&&F!=="all")?"all":b.dataset.k;OPEN=null;render();if(F!=="all")$("#lista").scrollIntoView()});
+}
+function attention(){
+ const ex=D.filter(d=>d.k==="excedido"),sem=ex.filter(d=>!d.mo),com=ex.filter(d=>d.mo);
+ const chip=(d,c)=>`<button class="chip ${c||""}" data-n="${esc(d.n)}">${esc(d.n)}${d.mo?" · "+d.mo.l:""}</button>`;
+ $("#atencao").innerHTML=`<div class="card alert"><div class="cols"><div><h3>Sem previsão (${sem.length})</h3><div class="chips">${sem.map(d=>chip(d)).join("")}</div></div><div><h3>Com nova previsão (${com.length})</h3><div class="chips">${com.map(d=>chip(d,"soft")).join("")}</div></div></div><p class="note"><b>Atenção:</b> as datas de nova previsão são internas. Dependem de diversos fatores e, por isso, não podem ser informadas aos clientes.</p></div>`;
+ bindFocus("#atencao");
+}
+function timeline(){
+ const g={};D.filter(d=>d.k==="prazo"&&d.mo).forEach(d=>{(g[d.mo.k]=g[d.mo.k]||{l:d.mo.l,i:[]}).i.push(d)});
+ const ks=Object.keys(g).sort();
+ $("#timeline").innerHTML=`<h2>Dentro do Prazo Contratual</h2><div class="tl">${ks.map(k=>`<div class="m"><h3>${g[k].l}</h3><ul>${g[k].i.map(d=>`<li><button data-n="${esc(d.n)}"><span class="nm">${esc(d.n)}</span><small>Prazo para baixa</small></button></li>`).join("")}</ul></div>`).join("")}</div>`;
+ bindFocus("#timeline");
+}
+function bindFocus(root){document.querySelectorAll(root+" [data-n]").forEach(b=>b.onclick=()=>{F="all";B="";Q=b.dataset.n;$("#q").value=Q;$("#brand").value="";OPEN=Q;render();$("#lista").scrollIntoView()})}
+function brands(){
+ const bs=[...new Set(D.map(d=>d.b))].sort((a,b)=>a.localeCompare(b,"pt"));
+ $("#brand").innerHTML='<option value="">Todas as linhas</option>'+bs.map(b=>`<option>${esc(b)}</option>`).join("");
+}
+function list(){
+ const q=Q.trim().toLowerCase();
+ const r=D.filter(d=>(F==="all"||d.k===F)&&(!B||d.b===B)&&(!q||d.n.toLowerCase().includes(q)));
+ $("#count").textContent=r.length+(r.length===1?" empreendimento":" empreendimentos");
+ $("#rows").innerHTML=r.length?r.map(d=>{const prev=d.p||(d.k==="excedido"?"Sem previsão informada":"—");
+  return `<div class="row k-${d.k}${OPEN===d.n?" open":""}"><button aria-expanded="${OPEN===d.n}" data-n="${esc(d.n)}"><span><span class="n">${esc(d.n)}</span><br><span class="b">${esc(d.b)}</span></span><span class="rt"><span class="badge s-${d.k}">${ST[d.k].t}</span><i class="chev" aria-hidden="true"></i></span></button><div class="det"><p><b>Situação na base:</b> ${esc(d.s)}</p><p><b>Previsão de baixa:</b> ${esc(prev)}</p></div></div>`}).join(""):'<div class="empty">Nenhum empreendimento encontrado. Limpe a busca ou escolha outro filtro.</div>';
+ document.querySelectorAll("#rows .row>button").forEach(b=>b.onclick=()=>{OPEN=OPEN===b.dataset.n?null:b.dataset.n;list()});
+}
+function render(){stats();list()}
+$("#q").oninput=e=>{Q=e.target.value;OPEN=null;list()};
+$("#brand").onchange=e=>{B=e.target.value;OPEN=null;list()};
+brands();attention();timeline();render();
+</script>
+</body>
+</html>
